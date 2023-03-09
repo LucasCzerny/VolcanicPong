@@ -293,7 +293,9 @@ int main()
 
 	unsigned int scores[2] = { 0 };
 
-	while (!glfwWindowShouldClose(window))
+	bool shouldQuit = false;
+
+	while (!glfwWindowShouldClose(window) && !shouldQuit)
 	{
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
@@ -330,6 +332,15 @@ int main()
 
 		glfwPollEvents();
 		DrawFrame(logicalDevice, swapChain, graphicsQueue, presentQueue, commandBuffers, syncObjects, transforms, framebuffers, swapChainExtent, renderPass, pipeline, pipelineLayout, vertexBuffer, vertices.size());
+
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			shouldQuit = true;
+
+			std::cout << "\n";
+			std::cout << "The game is over\n";
+			std::cout << "Score: " << scores[0] << " - " << scores[1] << "\n";
+		}
 	}
 
 	// Clean up
@@ -430,7 +441,7 @@ VkInstance CreateInstance(bool enableValidationLayers, const std::vector<const c
 	VkApplicationInfo appInfo{};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 	appInfo.pApplicationName = "VolcanicSnake";
-	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+	appInfo.applicationVersion = VK_MAKE_API_VERSION(0, 1, 0, 0);
 	appInfo.pEngineName = "No engine";
 	appInfo.engineVersion = NULL;
 	appInfo.apiVersion = VK_API_VERSION_1_0;
